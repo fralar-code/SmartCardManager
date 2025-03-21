@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+  <meta charset="UTF-8">
+  <title>Transazione effettuate</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" th:href="@{/}">Credito</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
+          <a class="nav-link active" aria-current="page" th:href="@{/admin/cards}">Gestisci carte</a>
+        </li>
+        <li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
+          <a class="nav-link active" aria-current="page" th:href="@{/admin/shopkeepers}">Gestisci negozianti</a>
+        </li>
+        <li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
+          <a class="nav-link active" aria-current="page" th:href="@{/admin/reports}">Reports</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" th:href="@{/shop/payment}">Effettua pagamenti</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" th:href="@{/shop/transitions}">Storico transazioni</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" th:href="@{/logout}">Logout</a>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class="container">
+  </br>
+  <div class="row col-md-10" th:if="${not #lists.isEmpty(transitions)}">
+
+    <h2>Storico transazioni</h2>
+    <table class="table table-bordered table-hover">
+      <thead class="table-dark">
+      <tr>
+        <th>Data</th>
+        <th>Importo</th>
+        <th>Tipo</th>
+        <th>Id carta</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each = "transition : ${transitions}">
+        <td th:text = "${#temporals.format(transition.timestamp, 'dd/MM/yyyy HH:mm:ss')}"></td>
+        <td th:text = "${transition.value}"></td>
+        <td th:text = "${transition.type}"></td>
+        <td th:text="${transition.card.id}"> </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div th:if="${#lists.isEmpty(transitions)}"><h2>Nessuna transizione effettuata</h2></div>
+</div>
+</body>
+</html>

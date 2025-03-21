@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <title>Credito</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+          crossorigin="anonymous">
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/}">Credito</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
+                    <a class="nav-link active" aria-current="page" th:href="@{/admin/cards}">Gestisci carte</a>
+                </li>
+                <li class="nav-item" sec:authorize="hasAuthority('ADMIN')">
+                    <a class="nav-link active" aria-current="page" th:href="@{/admin/shopkeepers}">Gestisci negozianti</a>
+                </li>
+                <li class="nav-item" sec:authorize="hasAuthority('ADMIN')">
+                    <a class="nav-link active" aria-current="page" th:href="@{/admin/reports}">Reports</a>
+                </li>
+                <li class="nav-item" sec:authorize="hasAnyAuthority('ADMIN','SHOP')">
+                    <a class="nav-link active" aria-current="page" th:href="@{/shop/payment}">Effettua pagamenti</a>
+                </li>
+                <li class="nav-item" sec:authorize="hasAnyAuthority('ADMIN','SHOP')">
+                    <a class="nav-link active" aria-current="page" th:href="@{/shop/transitions}">Storico transazioni</a>
+                </li>
+                <li class="nav-item" sec:authorize="hasAnyAuthority('ADMIN','SHOP')">
+                    <a class="nav-link active" aria-current="page" th:href="@{/logout}">Logout</a>
+                </li>
+                <div sec:authorize = "!isAuthenticated()">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" th:href="@{/login}">Login</a>
+                </li>
+                </div>
+            </ul>
+        </div>
+    </div>
+</nav>
+<br /><br />
+<div class="container">
+    <div class="row">
+        <h1 class="text-center"> Credito residuo </h1>
+
+        <form method="post" role="form" th:action="@{/account-balance}">
+            <div class="form-group ">
+                <label class="form-label">Iserisci id:</label>
+                <div class="row">
+                    <div class="col-md-3">
+                        <input type="number" class="form-control " id="id" name="id" placeholder="id" min="1" required/>
+                    </div>
+                    <div class="col">
+                    <button class="btn btn-primary" type="submit">Cerca</button>
+                    </div>
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
+    </br>
+        <div th:if="${error}" th:text="${error}" class="alert alert-danger col-md-3"></div>
+
+
+
+        <div th:if="${success}" class="row col-md-10">
+            <h2>Informazioni carta</h2>
+            <table class="table table-bordered table-hover">
+                <thead class="table-dark">
+                <tr>
+                    <th>Id</th>
+                    <th>Credito</th>
+                    <th>Stato</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td th:text = "${card.id}"></td>
+                    <td th:text = "${card.credit}"></td>
+                    <td th:text = "${card.state}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+</div>
+
+</body>
+</html>
