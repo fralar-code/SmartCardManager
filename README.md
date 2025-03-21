@@ -14,11 +14,9 @@
 - 📊 Reports for transactions and merchants
 
 ## 🚀 Setup & Installation  
-1. Clone this repository ```bash 
-git clone https://github.com/fralar-code/SmartCardManager.git```
+1. Clone this repository ```git clone https://github.com/fralar-code/SmartCardManager.git```
 2. Configure application.properties
-4. Run the project ```bash 
-mvn spring-boot:run```
+4. Run the project ```mvn spring-boot:run```
 
 ## 🏗️ Project Architecture  
 
