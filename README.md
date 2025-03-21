@@ -8,6 +8,7 @@
 - Maven
 
 ## ✨ Features  
+The website emulates the management of card transactions and payments. An ADMIN user—who can be thought of as a shopkeeper selling rechargeable gift cards—can create a card with the amount of money provided by the user in the store. This allows the user to check their current credit at any time. All transactions are logged in the database with useful information.
 - 📌 Users can check card balance  
 - 🛒 Merchants can process charges & top-ups  
 - 🛡️ Admins can create, block, and manage cards  
