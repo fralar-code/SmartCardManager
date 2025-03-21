@@ -46,7 +46,7 @@ public class AdminController {
     @PostMapping("/admin/card-creation")
     public String createCard(@Valid @ModelAttribute("card") CardDto cardDto, BindingResult result, Model model,
                              RedirectAttributes redirectAttrs, Authentication authentication) {
-        cardDto.setState("Attiva");
+        cardDto.setState("Active");
         if (result.hasErrors()) {
             model.addAttribute("card", cardDto);
             List<CardDto> cards = cardService.findAllCards();
@@ -58,30 +58,30 @@ public class AdminController {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         ReportDto reportDto = new ReportDto();
         reportDto.setUser(userService.findUserByEmail(userDetails.getUsername()));
-        reportDto.setOperationType("Carta creata");
-        reportDto.setInfo("Card_id: " + id + " importo: " + cardDto.getCredit());
+        reportDto.setOperationType("Card created");
+        reportDto.setInfo("Card_id: " + id + " amount: " + cardDto.getCredit());
         reportDto.setTimestamp(LocalDateTime.now());
         reportService.saveReport(reportDto);
 
-        redirectAttrs.addFlashAttribute("successCard", "Carta creata correttamente!");
+        redirectAttrs.addFlashAttribute("successCard", "Cartd created correctly!");
         return "redirect:/admin/cards";
     }
 
     @PostMapping("/admin/change-card-status")
     public String changeCardStatus(@ModelAttribute("card") CardDto cardDto, RedirectAttributes redirectAttrs,
                                    Authentication authentication) {
-        String newState = cardDto.getState().equals("Attiva") ? "Bloccata" : "Attiva";
+        String newState = cardDto.getState().equals("Active") ? "Blocked" : "Active";
         cardService.updateStateById(cardDto.getId(), newState);
 
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         ReportDto reportDto = new ReportDto();
         reportDto.setUser(userService.findUserByEmail(userDetails.getUsername()));
-        reportDto.setOperationType("Stato carta cambiato");
-        reportDto.setInfo("Card_id: " + cardDto.getId() + " nuovo stato: " + newState);
+        reportDto.setOperationType("Card status changed");
+        reportDto.setInfo("Card_id: " + cardDto.getId() + " new status: " + newState);
         reportDto.setTimestamp(LocalDateTime.now());
         reportService.saveReport(reportDto);
 
-        redirectAttrs.addFlashAttribute("success", "Stato cambiato correttamente!");
+        redirectAttrs.addFlashAttribute("success", "Status changed correctly!");
         return "redirect:/admin/cards";
     }
 
@@ -101,10 +101,10 @@ public class AdminController {
         User existingUser = userService.findUserByEmail(userDto.getEmail());
 
         if (existingUser != null && existingUser.getEmail() != null && !existingUser.getEmail().isEmpty()) {
-            result.rejectValue("email", null, "Esiste già un account registrato con la stessa email");
+            result.rejectValue("email", null, "There is already an account registered with the same email");
         }
 
-        userDto.setState("Attivo");
+        userDto.setState("Active");
 
         if (result.hasErrors()) {
             model.addAttribute("user", userDto);
@@ -118,30 +118,30 @@ public class AdminController {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         ReportDto reportDto = new ReportDto();
         reportDto.setUser(userService.findUserByEmail(userDetails.getUsername()));
-        reportDto.setOperationType("Negoziante registrato");
+        reportDto.setOperationType("Registered shopkeeper");
         reportDto.setInfo("user_id: " + id);
         reportDto.setTimestamp(LocalDateTime.now());
         reportService.saveReport(reportDto);
 
-        redirectAttrs.addFlashAttribute("successRegister", "Utente registrato correttamente!");
+        redirectAttrs.addFlashAttribute("successRegister", "User successfully registered!");
         return "redirect:/admin/shopkeepers";
     }
 
     @PostMapping("/admin/change-shopkeepers-status")
     public String changeShopkeepersStatus(@ModelAttribute("user") UserDto userDto, RedirectAttributes redirectAttrs,
                                           Authentication authentication) {
-        String newState = userDto.getState().equals("Attivo") ? "Bloccato" : "Attivo";
+        String newState = userDto.getState().equals("Active") ? "Blocked" : "Active";
         userService.updateStateById(userDto.getId(), newState);
 
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         ReportDto reportDto = new ReportDto();
         reportDto.setUser(userService.findUserByEmail(userDetails.getUsername()));
-        reportDto.setOperationType("Stato negoziante cambiato");
-        reportDto.setInfo("user_id: " + userDto.getId() + " nuovo stato: " + newState);
+        reportDto.setOperationType("Shopkeeper status changed");
+        reportDto.setInfo("user_id: " + userDto.getId() + " new status: " + newState);
         reportDto.setTimestamp(LocalDateTime.now());
         reportService.saveReport(reportDto);
 
-        redirectAttrs.addFlashAttribute("success", "Stato cambiato correttamente!");
+        redirectAttrs.addFlashAttribute("success", "Status changed correctly!");
         return "redirect:/admin/shopkeepers";
     }
 

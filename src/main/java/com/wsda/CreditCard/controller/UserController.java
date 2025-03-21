@@ -16,7 +16,7 @@ public class UserController {
     public String cardCredit(Integer id, Model model) {
         CardDto existingCard = cardService.findCardById(id);
         if (existingCard == null) {
-            model.addAttribute("error", "Non esiste alcuna carta con tale id");
+            model.addAttribute("error", "There is no card with such id");
         } else {
             model.addAttribute("success", true);
             model.addAttribute("card", existingCard);

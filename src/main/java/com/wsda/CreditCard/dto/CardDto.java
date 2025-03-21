@@ -14,10 +14,10 @@ import lombok.Setter;
 public class CardDto {
 
     private Integer id;
-    @Min(value = 1, message = "Il credito deve essere maggiore o uguale ad 1")
-    @Max(value = 50000, message = "Il credito deve essere inferiore ai 50000")
-    @NotNull(message = "Il campo credito non può essere vuoto")
+    @Min(value = 1, message = "The credit must be greater than or equal to 1")
+    @Max(value = 50000, message = "The credit must be less than 50000")
+    @NotNull(message = "The credit field cannot be blank")
     private Integer credit;
-    @Pattern(regexp = "Attiva|Bloccata")
+    @Pattern(regexp = "Active|Blocked")
     private String state;
 }

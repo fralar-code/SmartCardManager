@@ -31,13 +31,13 @@ public class AuthController implements ErrorController {
     @GetMapping("/access-denied")
     public String accessDenied(Authentication authentication, Model model) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        model.addAttribute("errorInfo", "Non puoi accedere a questa pagina, ruolo: " + userDetails.getAuthorities());
+        model.addAttribute("errorInfo", "You cannot access this page, role: " + userDetails.getAuthorities());
         return "error";
     }
 
     @GetMapping("/error")
     public String errorPage(Model model) {
-        model.addAttribute("errorInfo", "Pagina non trovata");
+        model.addAttribute("errorInfo", "Page not found");
         return "error";
     }
 
@@ -60,7 +60,7 @@ public class AuthController implements ErrorController {
         if (session != null) {
             AuthenticationException exception = (AuthenticationException) session.getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
             if (exception instanceof BadCredentialsException) {
-                errorMessage = "Email o password errati";
+                errorMessage = "Incorrect email or password";
             } else {
                 errorMessage = exception.getMessage();
             }

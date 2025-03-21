@@ -42,7 +42,7 @@ public class ShopController {
     public String cardCredit(Integer id, Model model) {
         CardDto existingCard = cardService.findCardById(id);
         if (existingCard == null) {
-            model.addAttribute("error", "Non esiste alcuna carta con tale id");
+            model.addAttribute("error", "There is no card with such id");
         } else {
             model.addAttribute("successSearch", true);
             model.addAttribute("card", existingCard);
@@ -57,7 +57,7 @@ public class ShopController {
             //nel caso di errore restituisco la carta sul quale si è verificato l'errore
             model.addAttribute("card", cardDto);
             model.addAttribute("successSearch", true);
-            model.addAttribute("errorPayment", "Saldo insufficiente");
+            model.addAttribute("errorPayment", "Insufficient balance");
             return "payment";
         } else {
             //aggiorniamo il saldo attuale della carta
@@ -68,10 +68,10 @@ public class ShopController {
             transitionDto.setUser(userService.findUserByEmail(userDetails.getUsername()));
             transitionDto.setCard(modelMapper.map(cardDto, Card.class));
             transitionDto.setValue(amount);
-            transitionDto.setType(button.equals("debit") ? "Addebito" : "Accredito");
+            transitionDto.setType(button.equals("debit") ? "Debit" : "Credit");
             transitionDto.setTimestamp(LocalDateTime.now());
             transitionService.saveTransition(transitionDto);
-            redirectAttrs.addFlashAttribute("successPayment", "Transazione correttamente eseguita");
+            redirectAttrs.addFlashAttribute("successPayment", "Correctly executed transaction");
         }
         return "redirect:/shop/payment";
     }
